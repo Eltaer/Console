@@ -6,6 +6,7 @@ namespace _3._1
     {
         static double f(double x)
         {
+            x = 101;
             return x % 10;
         }
 
