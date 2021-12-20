@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +46,35 @@ namespace ConsoleApplication6
             get { return DateTime.IsLeapYear(date.Year); }
         }
 
+        public DateTime this[int index]
+        {
+            get { return date.AddDays(index); }
+        }
+
+        public static bool operator !(Date a)
+        {
+            return DateTime.DaysInMonth(a.Date1.Year, a.Date1.Month) != a.Date1.Day;
+        }
+
+        public static bool operator true(Date a)
+        {
+            return a.date.Day == 1 && a.date.Month == 1;
+        }
+
+        public static bool operator false(Date a)
+        {
+            return a.date.Day != 1 || a.date.Month != 1;
+        }
+
+        public static bool operator &(Date a, Date b)
+        {
+            return a.Date1.Equals(b.Date1);
+        }
+
+        public static explicit operator String(Date obj)
+        {
+            return " Год: " + obj.date.Year + " Месяц: " + obj.date.Month + " Число: " + obj.date.Day;
+        }
     }
 
     class programm
@@ -55,7 +84,10 @@ namespace ConsoleApplication6
 
             string st1 = "2009,1,1";
             Date f = new Date(st1);
-            Console.Write("Определенная дата: ");
+            Console.Write("Введите i: ");
+            string st2 = Console.ReadLine();
+            int i = Convert.ToInt16(st2);
+            Console.Write("Заданная дата: ");
             Console.WriteLine(f.Date1);
             Console.Write("Прошлый день: ");
             Console.WriteLine(f.PrevDay());
@@ -65,12 +97,14 @@ namespace ConsoleApplication6
             Console.WriteLine(f.DaysLeft());
             Console.Write("Високосный ли год?: ");
             Console.WriteLine(f.IsLeap);
+            Console.WriteLine("Датa i-того по счету дня относительно установленной даты: {0}", f[i]);
+            Console.WriteLine("Дата является последним днем месяца?: {0}", !f);
+            Console.WriteLine("Преобразования класса DataTime в тип string: {0}", (string)f);
             Console.WriteLine("");
-
             Console.Write("Введите дату: ");
             string st = Console.ReadLine();
             Date A = new Date(st);
-            Console.Write("Заданная дата: ");
+            Console.Write("Определенная дата: ");
             Console.WriteLine(A.Date1);
             Console.Write("Прошлый день: ");
             Console.WriteLine(A.PrevDay());
@@ -80,7 +114,9 @@ namespace ConsoleApplication6
             Console.WriteLine(A.DaysLeft());
             Console.Write("Високосный ли год?: ");
             Console.WriteLine(A.IsLeap);
+            Console.WriteLine("Поля равны?: {0}", f & A);
             Console.ReadKey();
         }
     }
+}
 }
